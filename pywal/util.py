@@ -40,8 +40,14 @@ class Color:
     @property
     def argb(self):
         """Convert a hex color to argb."""
-        a, r, g, b = hex_to_argb(self.hex_color, self.alpha_dec)
-        return f"{a}{r}{g}{b}"
+        return hex_to_argb(self.hex_color, self.alpha_dec)
+
+    @property
+    def argb_strip(self):
+        """Strip '#' from color."""
+        argb = hex_to_argb(self.hex_color, self.alpha_dec)
+        hex = argb_to_hex(argb)
+        return hex[1:]
 
     @property
     def alpha(self):
@@ -176,9 +182,9 @@ def hex_to_xrgba(color):
 
 def hex_to_argb(color, alpha_dec):
     """Convert a hex color to argb."""
-    alpha = int(alpha_dec * 256) - 1
-    r,g,b = tuple(bytes.fromhex(color.strip("#")))
-    return argb_to_hex((alpha, r, g, b))
+    alpha = int(alpha_dec * 255)
+    rgb = tuple(bytes.fromhex(color.strip("#")))
+    return (alpha,) + rgb
 
 def rgb_to_hex(color):
     """Convert an rgb color to hex."""
