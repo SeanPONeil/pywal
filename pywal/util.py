@@ -37,6 +37,11 @@ class Color:
         """Convert a hex color to rgba."""
         return "rgba(%s,%s,%s,%s)" % (*hex_to_rgb(self.hex_color),
                                       self.alpha_dec)
+    @property
+    def argb(self):
+        """Convert a hex color to argb."""
+        a, r, g, b = hex_to_argb(self.hex_color, self.alpha_dec)
+        return f"{a}{r}{g}{b}"
 
     @property
     def alpha(self):
@@ -169,11 +174,19 @@ def hex_to_xrgba(color):
     col = color.lower().strip("#")
     return "%s%s/%s%s/%s%s/ff" % (*col,)
 
+def hex_to_argb(color, alpha_dec):
+    """Convert a hex color to argb."""
+    alpha = int(alpha_dec * 256) - 1
+    r,g,b = tuple(bytes.fromhex(color.strip("#")))
+    return argb_to_hex((alpha, r, g, b))
 
 def rgb_to_hex(color):
     """Convert an rgb color to hex."""
     return "#%02x%02x%02x" % (*color,)
 
+def argb_to_hex(color):
+    """Convert an argb color to hex."""
+    return "#%02x%02x%02x%02x" % (*color,)
 
 def darken_color(color, amount):
     """Darken a hex color."""

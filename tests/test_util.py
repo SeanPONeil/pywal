@@ -73,6 +73,11 @@ class TestUtil(unittest.TestCase):
         result = util.hex_to_xrgba("#98aec2")
         self.assertEqual(result, "98/ae/c2/ff")
 
+    def test_hex_to_argb(self):
+        """> Convert #98aec2 alpha 64% to ARGB."""
+        result = util.hex_to_argb("#98aec2", 0.64)
+        self.assertEqual(result, "#a298aec2")
+
     def test_rgb_to_hex(self):
         """> Convert 152,174,194 to HEX."""
         result = util.rgb_to_hex((152, 174, 194))
